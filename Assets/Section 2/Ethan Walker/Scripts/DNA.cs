@@ -14,6 +14,7 @@ namespace EthanWalker
         {
             dnaLength = length;
             maxValues = max;
+            SetRandom();
         }
 
         public void SetRandom()
@@ -34,11 +35,12 @@ namespace EthanWalker
         {
             for (int i = 0; i < dnaLength; i++)
             {
-                if(i < dnaLength / 2.0)
+                if (i < dnaLength / 2.0)
                 {
                     int c = dna1.genes[i];
                     genes[i] = c;
-                } else
+                }
+                else
                 {
                     int c = dna2.genes[i];
                     genes[i] = c;

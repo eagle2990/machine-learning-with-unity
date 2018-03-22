@@ -10,6 +10,8 @@ namespace EthanWalker
     {
         public int DNALength = 1;
         public float timeAlive;
+        public float distanceTravelled;
+        private Vector3 initialPosition;
         public DNA dna;
 
         private ThirdPersonCharacter m_Character;
@@ -37,6 +39,8 @@ namespace EthanWalker
             dna = new DNA(DNALength, 6);
             m_Character = GetComponent<ThirdPersonCharacter>();
             timeAlive = 0;
+            distanceTravelled = 0;
+            initialPosition = transform.position;
             alive = true;
         }
 
@@ -76,6 +80,7 @@ namespace EthanWalker
             if (alive)
             {
                 timeAlive += Time.deltaTime;
+                distanceTravelled = Vector3.Distance(transform.position, initialPosition);
             }
         }
     }
