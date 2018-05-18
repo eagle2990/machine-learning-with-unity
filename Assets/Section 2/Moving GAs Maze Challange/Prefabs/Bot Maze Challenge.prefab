@@ -22,10 +22,10 @@ GameObject:
   - component: {fileID: 33088492050834166}
   - component: {fileID: 136349563543863622}
   - component: {fileID: 23307043799059150}
-  - component: {fileID: 114449837208980298}
   - component: {fileID: 54528267880299052}
+  - component: {fileID: 114527068363336308}
   m_Layer: 9
-  m_Name: Bot
+  m_Name: Bot Maze Challenge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,13 +55,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1966188552099418}
-  m_LocalRotation: {x: 0.5591929, y: 0, z: 0, w: 0.8290376}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.449, z: 0.423}
   m_LocalScale: {x: 0.67172086, y: 0.33289537, z: 0.5562923}
   m_Children: []
   m_Father: {fileID: 4470342352346748}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 68, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4470342352346748
 Transform:
   m_ObjectHideFlags: 1
@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1330486689466162}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.27622, y: -4.18, z: -63.73}
+  m_LocalPosition: {x: 361.24, y: 35.61, z: 98.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4257300279205462}
@@ -82,7 +82,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1330486689466162}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -91,7 +91,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 340cdd34b756f854f95f9f285968f06b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -117,7 +117,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1966188552099418}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -126,7 +126,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c6820dff0f5a1104bbd7469614bd007a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -173,7 +173,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!65 &65974590622075434
 BoxCollider:
@@ -187,7 +187,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114449837208980298
+--- !u!114 &114527068363336308
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -195,13 +195,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1330486689466162}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc0010c3fce0e504daafa8922e364153, type: 3}
+  m_Script: {fileID: 11500000, guid: c14fecfac809a574093dbc6cf18657a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeAlive: 0
   timeWalking: 0
+  dna: {fileID: 0}
   eyes: {fileID: 1966188552099418}
-  ethanPrefab: {fileID: 113348, guid: 54eb5844754051b40a918a84c33b7c1a, type: 2}
 --- !u!136 &136349563543863622
 CapsuleCollider:
   m_ObjectHideFlags: 1
