@@ -39,6 +39,7 @@ namespace NotSoFlappyBird
                 b.GetComponent<Brain>().Init();
                 population.Add(b);
             }
+            Time.timeScale = 5;
         }
 
         GameObject Breed(GameObject parent1, GameObject parent2)
@@ -60,7 +61,7 @@ namespace NotSoFlappyBird
 
         void BreedNewPopulation()
         {
-            List<GameObject> sortedList = population.OrderBy(o => (o.GetComponent<Brain>().distanceTravelled)).ToList();
+            List<GameObject> sortedList = population.OrderBy(o => (o.GetComponent<Brain>().distanceTravelled - o.GetComponent<Brain>().crash)).ToList();
 
             population.Clear();
             for (int i = (int)(3 * sortedList.Count / 4.0f) - 1; i < sortedList.Count - 1; i++)

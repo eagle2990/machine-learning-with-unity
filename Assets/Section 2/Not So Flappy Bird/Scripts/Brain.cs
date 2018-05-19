@@ -35,8 +35,15 @@ namespace NotSoFlappyBird
 
         void OnCollisionEnter2D(Collision2D col)
         {
-            if (col.gameObject.tag == "dead" ||
-                col.gameObject.tag == "top" ||
+            if (col.gameObject.tag == "dead")
+            {
+                alive = false;
+            }
+        }
+
+        private void OnCollisionStay2D(Collision2D col)
+        {
+            if (col.gameObject.tag == "top" ||
                 col.gameObject.tag == "bottom" ||
                 col.gameObject.tag == "upwall" ||
                 col.gameObject.tag == "downwall")
