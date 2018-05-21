@@ -38,6 +38,7 @@ namespace MovingGASMazeChallenge
                 b.GetComponent<BrainMazeChallenge>().Init();
                 population.Add(b);
             }
+            Time.timeScale = 3;
         }
 
         GameObject Breed(GameObject parent1, GameObject parent2)
