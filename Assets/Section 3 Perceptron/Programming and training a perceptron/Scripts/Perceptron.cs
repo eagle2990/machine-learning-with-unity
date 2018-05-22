@@ -7,7 +7,7 @@ namespace Section3.Perceptron
     {
         public double[] input;
         public double output;
-    } 
+    }
 
     public class Perceptron : MonoBehaviour
     {
@@ -15,6 +15,8 @@ namespace Section3.Perceptron
         double[] weights = { 0, 0 };
         double bias = 0;
         double totalError = 0;
+
+        public SimpleGrapher grapher;
 
         double DotProductBias(double[] weights, double[] inputs)
         {
@@ -90,11 +92,44 @@ namespace Section3.Perceptron
 
         void Start()
         {
-            Train(8);
-            Debug.Log("Test 0 0: " + CalculateOutput(0, 0));
-            Debug.Log("Test 0 1: " + CalculateOutput(0, 1));
-            Debug.Log("Test 1 0: " + CalculateOutput(1, 0));
-            Debug.Log("Test 1 1: " + CalculateOutput(1, 1));
+            DrawAllPoints();
+            Train(200);
+            grapher.DrawRay((float)(-(bias / weights[1]) / (bias / weights[0])), (float)(-bias / weights[1]), Color.red);
+            DrawCalculatedPoint(0, 0);
+            DrawCalculatedPoint(0, 1);
+            DrawCalculatedPoint(1, 0);
+            DrawCalculatedPoint(1, 1);
+            DrawCalculatedPoint(0.3, 0.9);
+            DrawCalculatedPoint(0.8, 0.1);
+        }
+
+        void DrawAllPoints()
+        {
+            for (int i = 0; i < trainingSet.Length; i++)
+            {
+                if (trainingSet[i].output == 0)
+                {
+                    grapher.DrawPoint((float)trainingSet[i].input[0], (float)trainingSet[i].input[1], Color.magenta);
+                }
+                else
+                {
+                    grapher.DrawPoint((float)trainingSet[i].input[0], (float)trainingSet[i].input[1], Color.green);
+                }
+            }
+        }
+
+        void DrawCalculatedPoint(double point1, double point2)
+        {
+            double output = CalculateOutput(point1, point2);
+            Debug.Log("Test " + point1 + " " + point2 + ": " + output);
+            if (CalculateOutput(point1, point2) == 0)
+            {
+                grapher.DrawPoint((float)point1, (float)point2, Color.red);
+            }
+            else
+            {
+                grapher.DrawPoint((float)point1, (float)point2, Color.yellow);
+            }
         }
     }
 }
