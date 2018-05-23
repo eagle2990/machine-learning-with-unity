@@ -70,7 +70,14 @@ namespace Section4.FirstNeuralNetwork
                     }
 
                     N -= layers[i].neurons[j].bias;
-                    layers[i].neurons[j].output = ActivationFunction(N);
+                    if (i == numHidden)
+                    {
+                        layers[i].neurons[j].output = OutputActivationFunction(N);
+                    }
+                    else
+                    {
+                        layers[i].neurons[j].output = ActivationFunction(N);
+                    }
                     outputs.Add(layers[i].neurons[j].output);
                 }
             }
@@ -129,6 +136,11 @@ namespace Section4.FirstNeuralNetwork
             return Sigmoid(value);
         }
 
+        double OutputActivationFunction(double value)
+        {
+            return Sigmoid(value);
+        }
+
         double Step(double value) //(aka binary step)
         {
             if (value < 0) return 0;
@@ -139,6 +151,23 @@ namespace Section4.FirstNeuralNetwork
         {
             double k = (double)System.Math.Exp(value);
             return k / (1.0f + k);
+        }
+
+        double TanH(double value)
+        {
+            return (2 * (Sigmoid(2 * value)) - 1);
+        }
+
+        double ReLu(double value)
+        {
+            if (value > 0) return value;
+            else return 0;
+        }
+
+        double LeakyReLu(double value)
+        {
+            if (value < 0) return 0.01 * value;
+            else return value;
         }
     }
 }
