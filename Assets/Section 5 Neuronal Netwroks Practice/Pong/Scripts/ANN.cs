@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Section4.FirstNeuralNetwork
+namespace Section5.Pong
 {
-    public class ArtificialNeuralNetwork
+    public class ANN
     {
+
         public int numInputs;
         public int numOutputs;
         public int numHidden;
@@ -13,7 +14,7 @@ namespace Section4.FirstNeuralNetwork
         public double alpha;
         List<Layer> layers = new List<Layer>();
 
-        public ArtificialNeuralNetwork(int nI, int nO, int nH, int nPH, double a)
+        public ANN(int nI, int nO, int nH, int nPH, double a)
         {
             numInputs = nI;
             numOutputs = nO;
@@ -38,15 +39,24 @@ namespace Section4.FirstNeuralNetwork
             }
         }
 
-        public List<double> Go(List<double> inputValues, List<double> desiredOutput)
+        public List<double> Train(List<double> inputValues, List<double> desiredOutput)
+        {
+            List<double> outputValues = new List<double>();
+            outputValues = CalcOutput(inputValues, desiredOutput);
+            UpdateWeights(outputValues, desiredOutput);
+            return outputValues;
+        }
+
+        public List<double> CalcOutput(List<double> inputValues, List<double> desiredOutput)
         {
             List<double> inputs = new List<double>();
-            List<double> outputs = new List<double>();
+            List<double> outputValues = new List<double>();
+            int currentInput = 0;
 
             if (inputValues.Count != numInputs)
             {
                 Debug.Log("ERROR: Number of Inputs must be " + numInputs);
-                return outputs;
+                return outputValues;
             }
 
             inputs = new List<double>(inputValues);
@@ -54,9 +64,9 @@ namespace Section4.FirstNeuralNetwork
             {
                 if (i > 0)
                 {
-                    inputs = new List<double>(outputs);
+                    inputs = new List<double>(outputValues);
                 }
-                outputs.Clear();
+                outputValues.Clear();
 
                 for (int j = 0; j < layers[i].numNeurons; j++)
                 {
@@ -65,26 +75,57 @@ namespace Section4.FirstNeuralNetwork
 
                     for (int k = 0; k < layers[i].neurons[j].numInputs; k++)
                     {
-                        layers[i].neurons[j].inputs.Add(inputs[k]);
-                        N += layers[i].neurons[j].weights[k] * inputs[k];
+                        layers[i].neurons[j].inputs.Add(inputs[currentInput]);
+                        N += layers[i].neurons[j].weights[k] * inputs[currentInput];
+                        currentInput++;
                     }
 
                     N -= layers[i].neurons[j].bias;
+
                     if (i == numHidden)
-                    {
-                        layers[i].neurons[j].output = OutputActivationFunction(N);
-                    }
+                        layers[i].neurons[j].output = ActivationFunctionO(N);
                     else
-                    {
                         layers[i].neurons[j].output = ActivationFunction(N);
-                    }
-                    outputs.Add(layers[i].neurons[j].output);
+
+                    outputValues.Add(layers[i].neurons[j].output);
+                    currentInput = 0;
                 }
             }
+            return outputValues;
+        }
 
-            UpdateWeights(outputs, desiredOutput);
+        public string PrintWeights()
+        {
+            string weightStr = "";
+            foreach (Layer l in layers)
+            {
+                foreach (Neuron n in l.neurons)
+                {
+                    foreach (double w in n.weights)
+                    {
+                        weightStr += w + ",";
+                    }
+                }
+            }
+            return weightStr;
+        }
 
-            return outputs;
+        public void LoadWeights(string weightStr)
+        {
+            if (weightStr == "") return;
+            string[] weightValues = weightStr.Split(',');
+            int w = 0;
+            foreach (Layer l in layers)
+            {
+                foreach (Neuron n in l.neurons)
+                {
+                    for (int i = 0; i < n.weights.Count; i++)
+                    {
+                        n.weights[i] = System.Convert.ToDouble(weightValues[w]);
+                        w++;
+                    }
+                }
+            }
         }
 
         void UpdateWeights(List<double> outputs, List<double> desiredOutput)
@@ -98,7 +139,6 @@ namespace Section4.FirstNeuralNetwork
                     {
                         error = desiredOutput[j] - outputs[j];
                         layers[i].neurons[j].errorGradient = outputs[j] * (1 - outputs[j]) * error;
-                        //errorGradient calculated with Delta Rule: en.wikipedia.org/wiki/Delta_rule
                     }
                     else
                     {
@@ -129,60 +169,26 @@ namespace Section4.FirstNeuralNetwork
 
         }
 
-        //for full list of activation functions
-        //see en.wikipedia.org/wiki/Activation_function
         double ActivationFunction(double value)
         {
-            return Sigmoid(value);
+            return TanH(value);
         }
 
-        double OutputActivationFunction(double value)
+        double ActivationFunctionO(double value)
         {
-            return Sigmoid(value);
-        }
-
-        double Step(double value) //(aka binary step)
-        {
-            if (value < 0) return 0;
-            else return 1;
-        }
-
-        double Sigmoid(double value) //(aka logistic softstep)
-        {
-            double k = (double)System.Math.Exp(value);
-            return k / (1.0f + k);
+            return TanH(value);
         }
 
         double TanH(double value)
         {
-            return (2 * (Sigmoid(2 * value)) - 1);
+            double k = (double)System.Math.Exp(-2 * value);
+            return 2 / (1.0f + k) - 1;
         }
 
-        double ReLu(double value)
+        double Sigmoid(double value)
         {
-            if (value > 0) return value;
-            else return 0;
-        }
-
-        double LeakyReLu(double value)
-        {
-            if (value < 0) return 0.01 * value;
-            else return value;
-        }
-
-        double Sinusoid(double value)
-        {
-            return Mathf.Sin((float)value);
-        }
-
-        double ArcTan(double value)
-        {
-            return Mathf.Atan((float)value);
-        }
-
-        double Softsign(double value)
-        {
-            return value / (1 + Mathf.Abs((float)value));
+            double k = (double)System.Math.Exp(value);
+            return k / (1.0f + k);
         }
     }
 }
